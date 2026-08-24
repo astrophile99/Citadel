@@ -9,7 +9,6 @@ import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -213,6 +212,3 @@ fun VSpace(height: Int) = Spacer(Modifier.height(height.dp))
 
 @Composable
 fun HSpace(width: Int) = Spacer(Modifier.width(width.dp))
-
-internal val NoRipple: MutableInteractionSource
-    @Composable get() = MutableInteractionSource()

@@ -8,7 +8,6 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import dev.atharva.citadel.MainActivity
 import dev.atharva.citadel.R
@@ -170,8 +169,6 @@ class BootReceiver : BroadcastReceiver() {
         ) {
             return
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) return
-
         val prefs = context.getSharedPreferences("citadel.settings", Context.MODE_PRIVATE)
         Whispers.apply(
             context = context,

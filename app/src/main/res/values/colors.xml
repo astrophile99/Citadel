@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Window-level colours only. Everything the Commander actually sees is themed in Compose. -->
+    <!-- Window-level colour only. Everything the Commander actually sees is themed in Compose. -->
     <color name="obsidian">#FF07050A</color>
-    <color name="dawn_gold">#FFD4A84F</color>
-    <color name="keep_stone">#FF161C27</color>
 </resources>

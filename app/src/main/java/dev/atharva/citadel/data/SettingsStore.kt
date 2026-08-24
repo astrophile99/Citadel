@@ -1,6 +1,7 @@
 package dev.atharva.citadel.data
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.compose.runtime.Immutable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -44,21 +45,21 @@ class SettingsStore(context: Context) {
 
     fun update(transform: (CitadelSettings) -> CitadelSettings) {
         val next = transform(_settings.value)
-        prefs.edit()
-            .putBoolean(KEY_AMBIENCE, next.ambience)
-            .putBoolean(KEY_WHISPERS, next.whispers)
-            .putInt(KEY_DAWN, next.dawnWhisperMinute)
-            .putInt(KEY_EVENING, next.eveningWhisperMinute)
-            .putInt(KEY_SUGGESTED, next.suggestedMissions)
-            .putBoolean(KEY_ALWAYS_ARRIVE, next.alwaysArrive)
-            .apply()
+        prefs.edit {
+            putBoolean(KEY_AMBIENCE, next.ambience)
+            putBoolean(KEY_WHISPERS, next.whispers)
+            putInt(KEY_DAWN, next.dawnWhisperMinute)
+            putInt(KEY_EVENING, next.eveningWhisperMinute)
+            putInt(KEY_SUGGESTED, next.suggestedMissions)
+            putBoolean(KEY_ALWAYS_ARRIVE, next.alwaysArrive)
+        }
         _settings.value = next
     }
 
     /** The last day the arrival sequence was shown, so it plays once a day and not on every glance. */
     var lastArrivalDayKey: String
         get() = prefs.getString(KEY_LAST_ARRIVAL, "").orEmpty()
-        set(value) = prefs.edit().putString(KEY_LAST_ARRIVAL, value).apply()
+        set(value) = prefs.edit { putString(KEY_LAST_ARRIVAL, value) }
 
     private companion object {
         const val KEY_AMBIENCE = "ambience"
