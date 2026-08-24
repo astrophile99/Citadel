@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Citadel" parent="android:Theme.Material.Light.NoActionBar" />
+    <!--
+      The very first frame of the arrival belongs to the window, not to Compose.
+      A light parent theme here means a white flash before the world draws, which is a
+      terrible first impression for an app whose whole premise is walking into somewhere dark
+      and warm. Obsidian from the first millisecond.
+    -->
+    <style name="Theme.Citadel" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/obsidian</item>
+        <item name="android:colorBackground">@color/obsidian</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:enforceStatusBarContrast">false</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+    </style>
+
 </resources>
