@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Debug builds only. Lets a developer preview whispers, redraw the widget and render the
+  store artwork from the shell. Guarded by DUMP, which the adb shell holds and apps do not.
+  Usage is documented in DebugToolsReceiver.kt.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application>
+        <receiver
+            android:name=".debug.DebugToolsReceiver"
+            android:exported="true"
+            android:permission="android.permission.DUMP">
+            <intent-filter>
+                <action android:name="dev.atharva.citadel.debug.TOOLS" />
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>

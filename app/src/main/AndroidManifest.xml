@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Two quiet messages a day, and only if the Commander asks for them. -->
+    <!-- Up to five whispers a day, and only if the Commander says yes. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <!-- Alarms do not survive a reboot; this re-arms the whispers afterwards. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -28,16 +28,34 @@
             </intent-filter>
         </activity>
 
+        <!-- Delivers one whisper and arms the next. Only our own alarm reaches it. -->
         <receiver
             android:name=".system.WhisperReceiver"
             android:exported="false" />
 
+        <!-- Re-arms the whispers after a reboot, an update, or a change of clock or time zone. -->
         <receiver
-            android:name=".system.BootReceiver"
+            android:name=".system.WhisperRearmReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
             </intent-filter>
+        </receiver>
+
+        <!-- The home-screen widget. -->
+        <receiver
+            android:name=".widget.CitadelWidget"
+            android:exported="false"
+            android:label="@string/widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_citadel_info" />
         </receiver>
     </application>
 

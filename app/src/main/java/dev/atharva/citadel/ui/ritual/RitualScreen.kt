@@ -35,6 +35,8 @@ import dev.atharva.citadel.domain.GuardianVoice
 import dev.atharva.citadel.ui.components.GoldButton
 import dev.atharva.citadel.ui.components.QuietButton
 import dev.atharva.citadel.ui.components.SectionLabel
+import dev.atharva.citadel.ui.components.StatusBarFade
+import dev.atharva.citadel.ui.components.readableWidth
 import dev.atharva.citadel.ui.theme.DawnGold
 import dev.atharva.citadel.ui.theme.citadelPalette
 
@@ -74,6 +76,7 @@ fun RitualScreen(
                 .fillMaxSize()
                 .verticalScroll(scroll)
                 .statusBarsPadding()
+                .readableWidth()
                 .padding(horizontal = 24.dp)
         ) {
             Spacer(Modifier.height(28.dp))
@@ -149,6 +152,8 @@ fun RitualScreen(
             Spacer(Modifier.height(48.dp))
             Spacer(Modifier.navigationBarsPadding())
         }
+
+        StatusBarFade()
     }
 }
 

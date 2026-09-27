@@ -72,7 +72,9 @@ fun DrawScope.drawLand(
     drawPath(scratch.far, colors.mountainFar.copy(alpha = 0.75f * alpha))
 
     // ---- nearer range --------------------------------------------------------------
-    val nearBase = horizonY + h * 0.045f
+    // Reaches well below the ridge, which is drawn over it. A shallower base left a sliver
+    // of bare ground-colour between the two — a ruler-straight line across the valley.
+    val nearBase = horizonY + h * 0.16f
     scratch.near.reset()
     scratch.near.moveTo(0f, nearBase)
     scratch.near.lineTo(0f, horizonY + h * 0.004f)
@@ -381,11 +383,8 @@ private fun DrawScope.drawSmoke(
         val radius = u * 0.16f + u * 0.42f * t
         val a = (1f - t) * 0.16f * alpha
         if (a <= 0.005f) continue
-        drawCircle(
-            Color(0xFFC9CCD6).copy(alpha = a),
-            radius,
-            Offset(x + sway, y - rise)
-        )
+        // Soft falloff, like every other kind of air in the Citadel.
+        softPuff(Offset(x + sway, y - rise), radius * 1.7f, Color(0xFFC9CCD6), a * 1.5f)
     }
 }
 

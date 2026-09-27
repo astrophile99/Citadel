@@ -42,8 +42,9 @@ import dev.atharva.citadel.ui.CitadelUiState
 import dev.atharva.citadel.ui.components.GoldButton
 import dev.atharva.citadel.ui.components.MissionCard
 import dev.atharva.citadel.ui.components.QuietButton
-import dev.atharva.citadel.ui.components.QuietState
 import dev.atharva.citadel.ui.components.SectionLabel
+import dev.atharva.citadel.ui.components.StatusBarFade
+import dev.atharva.citadel.ui.components.readableWidth
 import dev.atharva.citadel.ui.nav.BarClearance
 import dev.atharva.citadel.ui.scene.Arrival
 import dev.atharva.citadel.ui.scene.ArrivalController
@@ -138,7 +139,7 @@ fun HearthScreen(
 
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .readableWidth()
                     .padding(horizontal = 24.dp),
                 verticalArrangement = Arrangement.spacedBy(22.dp)
             ) {
@@ -167,7 +168,7 @@ fun HearthScreen(
 
         // Anything that scrolls up under the status bar fades out rather than colliding
         // with the clock.
-        TopFade()
+        StatusBarFade()
     }
 }
 
@@ -239,11 +240,7 @@ private fun Promises(
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         if (state.today.isEmpty()) {
-            QuietState(
-                line = "The hearth is quiet today.",
-                detail = "Name one thing worth protecting."
-            )
-            Spacer(Modifier.height(4.dp))
+            // The greeting above already says the day is unwritten; one clear way in is enough.
             GoldButton(
                 text = "Prepare a mission",
                 onClick = onPrepare,
@@ -310,27 +307,4 @@ private fun RitualInvitation(
             modifier = Modifier.fillMaxWidth()
         )
     }
-}
-
-/**
- * A short fade across the status bar, so content scrolling up behind the clock dissolves
- * instead of colliding with it. Edge-to-edge without a top bar needs this or it reads as a bug.
- */
-@Composable
-private fun BoxScope.TopFade() {
-    val palette = citadelPalette
-    val inset = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(inset + 22.dp)
-            .align(Alignment.TopCenter)
-            .background(
-                Brush.verticalGradient(
-                    0f to palette.background.copy(alpha = 0.72f),
-                    0.55f to palette.background.copy(alpha = 0.32f),
-                    1f to palette.background.copy(alpha = 0f)
-                )
-            )
-    )
 }

@@ -12,6 +12,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,6 +25,8 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -34,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.atharva.citadel.ui.theme.DawnGold
 import dev.atharva.citadel.ui.theme.citadelPalette
@@ -212,3 +220,35 @@ fun VSpace(height: Int) = Spacer(Modifier.height(height.dp))
 
 @Composable
 fun HSpace(width: Int) = Spacer(Modifier.width(width.dp))
+
+/**
+ * Keeps reading comfortable on wide screens. On a phone this is simply full width; on a
+ * tablet or in landscape the column stops at a readable measure and centres itself.
+ */
+fun Modifier.readableWidth(max: Dp = 640.dp): Modifier = this
+    .fillMaxWidth()
+    .wrapContentWidth(Alignment.CenterHorizontally)
+    .widthIn(max = max)
+
+/**
+ * A short fade across the status bar, so content scrolling up behind the clock dissolves
+ * instead of colliding with it. Edge-to-edge without a top bar needs this or it reads as a bug.
+ */
+@Composable
+fun BoxScope.StatusBarFade() {
+    val palette = citadelPalette
+    val inset = WindowInsets.statusBars.asPaddingValues().calculateTopPadding()
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(inset + 22.dp)
+            .align(Alignment.TopCenter)
+            .background(
+                Brush.verticalGradient(
+                    0f to palette.background.copy(alpha = 0.92f),
+                    0.6f to palette.background.copy(alpha = 0.55f),
+                    1f to palette.background.copy(alpha = 0f)
+                )
+            )
+    )
+}

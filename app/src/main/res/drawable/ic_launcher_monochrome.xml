@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android 13 themed icons: the same keep, one colour, gate and window cut through. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:fillType="evenOdd"
+        android:pathData="M31,74V55H32V51.5H35.5V55H38.5V51.5H42V55H45V51.5H46V33.5H50.5V38H51.75V33.5H56.25V38H57.5V33.5H62V54.5H65.5V58H68.5V54.5H72V58H75V54.5H77V74Z M50,74V65.5A4,4 0,0 1,58 65.5V74Z M51.5,45H56.5V51H51.5Z" />
+</vector>

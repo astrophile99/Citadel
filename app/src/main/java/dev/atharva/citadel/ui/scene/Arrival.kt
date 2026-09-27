@@ -6,8 +6,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -63,26 +67,39 @@ class ArrivalController(
     val skip: () -> Unit
 )
 
+/**
+ * The arrival plays whenever [token] changes to a non-null value — in practice, once per
+ * day. A null token means "already arrived": the world is simply there.
+ */
 @Composable
 fun rememberArrival(
-    play: Boolean,
+    token: Any?,
     durationMs: Int = Arrival.DEFAULT_DURATION_MS,
     onFinished: () -> Unit = {}
 ): ArrivalController {
-    val animatable = remember { Animatable(if (play) 0f else 1f) }
+    // Start hidden only if we are about to play, so there is never a flash of the
+    // finished scene before the cover draws over it.
+    val animatable = remember { Animatable(if (token != null) 0f else 1f) }
     val scope = rememberCoroutineScope()
+    val finished by rememberUpdatedState(onFinished)
 
-    LaunchedEffect(play) {
-        if (!play) {
+    LaunchedEffect(token) {
+        if (token == null) {
             animatable.snapTo(1f)
             return@LaunchedEffect
         }
         animatable.snapTo(0f)
-        animatable.animateTo(
-            targetValue = 1f,
-            animationSpec = tween(durationMs, easing = FastOutSlowInEasing)
-        )
-        onFinished()
+        try {
+            animatable.animateTo(
+                targetValue = 1f,
+                animationSpec = tween(durationMs, easing = FastOutSlowInEasing)
+            )
+        } catch (interrupted: CancellationException) {
+            // A skip interrupts this animation with its own. That still counts as having
+            // arrived; only leaving the composition entirely should abandon the record.
+            if (!isActive) throw interrupted
+        }
+        finished()
     }
 
     return remember(animatable) {
@@ -93,7 +110,6 @@ fun rememberArrival(
                     scope.launch {
                         // Not a cut — a quick fold forward, so skipping still lands somewhere.
                         animatable.animateTo(1f, tween(320, easing = FastOutSlowInEasing))
-                        onFinished()
                     }
                 }
             }

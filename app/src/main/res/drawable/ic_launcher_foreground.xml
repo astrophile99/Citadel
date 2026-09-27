@@ -6,31 +6,17 @@
     android:viewportHeight="108">
 
     <!--
-      A crenellated keep between two walls, centred in the adaptive-icon safe zone
-      (x 31..77, y 34..74) so no mask shape can clip a battlement off.
+      The keep between its two walls, drawn as ONE outline with the gate and window cut
+      through it (even-odd). Separate rectangles leave hairline seams wherever their edges
+      meet; a single path has no edges to meet. Centred in the adaptive safe zone.
     -->
-
-    <!-- Left curtain wall -->
-    <path android:fillColor="#FFD4A84F" android:pathData="M31,55h15v19h-15z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M32,51.5h3.5v3.5h-3.5z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M38.5,51.5h3.5v3.5h-3.5z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M45,51.5h1v3.5h-1z" />
-
-    <!-- Right curtain wall -->
-    <path android:fillColor="#FFD4A84F" android:pathData="M62,58h15v16h-15z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M62,54.5h3.5v3.5h-3.5z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M68.5,54.5h3.5v3.5h-3.5z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M75,54.5h2v3.5h-2z" />
-
-    <!-- The keep -->
-    <path android:fillColor="#FFD4A84F" android:pathData="M46,38h16v36h-16z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M46,33.5h4.5v4.5h-4.5z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M51.75,33.5h4.5v4.5h-4.5z" />
-    <path android:fillColor="#FFD4A84F" android:pathData="M57.5,33.5h4.5v4.5h-4.5z" />
-
-    <!-- The gate, cut back out of the keep -->
-    <path android:fillColor="#FF11172A" android:pathData="M50,74v-8.5a4,4 0 0 1 8,0v8.5z" />
+    <path
+        android:fillColor="#FFD4A84F"
+        android:fillType="evenOdd"
+        android:pathData="M31,74V55H32V51.5H35.5V55H38.5V51.5H42V55H45V51.5H46V33.5H50.5V38H51.75V33.5H56.25V38H57.5V33.5H62V54.5H65.5V58H68.5V54.5H72V58H75V54.5H77V74Z M50,74V65.5A4,4 0,0 1,58 65.5V74Z M51.5,45H56.5V51H51.5Z" />
 
     <!-- Someone is awake. -->
-    <path android:fillColor="#FFF7E4B5" android:pathData="M51.5,45h5v6h-5z" />
+    <path
+        android:fillColor="#FFF7E4B5"
+        android:pathData="M51.5,45H56.5V51H51.5Z" />
 </vector>

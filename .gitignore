@@ -1,15 +1,27 @@
-*.iml
+# Build output
 .gradle
-/local.properties
+/build
+/captures
+.externalNativeBuild
+.cxx
+.kotlin/
+*.apk
+*.aab
+
+# Local machine configuration
+local.properties
+*.iml
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/deviceManager.xml
 .DS_Store
-/build
-/captures
-.externalNativeBuild
-.cxx
-local.properties
+
+# Signing — never commit keys or their passwords
+*.jks
+*.keystore
+keystore.properties

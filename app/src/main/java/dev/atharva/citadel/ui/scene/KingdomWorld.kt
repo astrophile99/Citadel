@@ -84,7 +84,7 @@ fun KingdomWorld(
                 val skyIn = Arrival.skyReveal(p)
                 val landIn = Arrival.landReveal(p)
 
-                val horizonY = size.height * HORIZON
+                val horizonY = size.height * SCENE_HORIZON
                 val animated = world.copy(
                     lightFraction = light.value,
                     lanternsLit = lanterns.value.toInt(),
@@ -177,7 +177,7 @@ private fun lerp(a: Float, b: Float, t: Float) = a + (b - a) * t.coerceIn(0f, 1f
  * What the world looks like, for a Commander who is listening rather than looking.
  * TalkBack should get the state of the kingdom, not "graphic".
  */
-private fun describe(world: WorldState): String {
+internal fun describe(world: WorldState): String {
     val phase = when (world.sky.phase) {
         dev.atharva.citadel.core.time.DayPhase.DAWN -> "Dawn"
         dev.atharva.citadel.core.time.DayPhase.DAY -> "Daylight"
@@ -194,7 +194,7 @@ private fun describe(world: WorldState): String {
 }
 
 /** The horizon sits high enough that the land, not the list, owns the opening view. */
-private const val HORIZON = 0.455f
+internal const val SCENE_HORIZON = 0.455f
 
 /** When motion is off, the world is frozen at a deliberately flattering instant. */
-private const val STILL_FRAME = 12.4f
+internal const val STILL_FRAME = 12.4f

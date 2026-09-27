@@ -75,6 +75,7 @@ fun PrepareSheet(
     target: PrepareTarget,
     onDismiss: () -> Unit,
     onCommit: (title: String, impact: MissionImpact, recurrence: Recurrence) -> Unit,
+    canMoveToTomorrow: Boolean = true,
     onContinueTomorrow: (Mission) -> Unit = {},
     onSetAside: (Mission) -> Unit = {},
     onRelease: (Mission) -> Unit = {}
@@ -184,7 +185,9 @@ fun PrepareSheet(
                 Hairline()
                 Spacer(Modifier.height(2.dp))
                 // Three ways to put a promise down, and not one of them is called "delete failed task".
-                QuietAction("Continue tomorrow") { onContinueTomorrow(existing) }
+                if (canMoveToTomorrow) {
+                    QuietAction("Continue tomorrow") { onContinueTomorrow(existing) }
+                }
                 QuietAction("Set aside for now") { onSetAside(existing) }
                 QuietAction("Let it go", tint = MaterialTheme.colorScheme.error) { onRelease(existing) }
             }

@@ -54,6 +54,8 @@ object GuardianVoice {
                 "Everything you set down is done. The walls are bright."
             world.keptToday > 0 && phase == DayPhase.NIGHT ->
                 "The lanterns are lit along the wall. Let the rest wait for morning."
+            world.keptToday > 0 && phase == DayPhase.DAWN ->
+                "A lantern is already lit. The day has started well."
             world.keptToday > 0 ->
                 "The wall is warmer than it was this morning."
             phase == DayPhase.NIGHT ->

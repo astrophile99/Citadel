@@ -30,6 +30,8 @@ import dev.atharva.citadel.data.model.ChronicleEntry
 import dev.atharva.citadel.data.model.Mission
 import dev.atharva.citadel.ui.components.QuietState
 import dev.atharva.citadel.ui.components.SectionLabel
+import dev.atharva.citadel.ui.components.StatusBarFade
+import dev.atharva.citadel.ui.components.readableWidth
 import dev.atharva.citadel.ui.nav.BarClearance
 import dev.atharva.citadel.ui.theme.AncientForest
 import dev.atharva.citadel.ui.theme.DawnGold
@@ -73,6 +75,7 @@ fun ChronicleScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .statusBarsPadding()
+                .readableWidth()
                 .padding(horizontal = 24.dp),
             verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
@@ -135,6 +138,8 @@ fun ChronicleScreen(
 
             item { Spacer(Modifier.height(BarClearance)) }
         }
+
+        StatusBarFade()
     }
 }
 
