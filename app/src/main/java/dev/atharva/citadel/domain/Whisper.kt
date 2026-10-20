@@ -18,28 +18,28 @@ enum class WhisperRoute { HEARTH, PREPARE, RITUAL }
  * night owl's afternoon lands at a sensible hour for a night owl.
  */
 enum class WhisperSlot(val title: String, val kind: WhisperKind, val position: Float) {
-    DAWN("Dawn has arrived", WhisperKind.PLAN, 0.00f),
-    MIDDAY("The midday watch", WhisperKind.WATCH, 0.32f),
-    AFTERNOON("The afternoon watch", WhisperKind.WATCH, 0.62f),
-    EVENING("Evening at the hearth", WhisperKind.WATCH, 0.86f),
-    NIGHT("The night watch", WhisperKind.PLAN, 1.00f)
+    DAWN("Good morning", WhisperKind.PLAN, 0.00f),
+    MIDDAY("Midday check-in", WhisperKind.WATCH, 0.32f),
+    AFTERNOON("Afternoon check-in", WhisperKind.WATCH, 0.62f),
+    EVENING("Evening check-in", WhisperKind.WATCH, 0.86f),
+    NIGHT("Plan tomorrow", WhisperKind.PLAN, 1.00f)
 }
 
 /** How often the kingdom speaks. Every option keeps both planning whispers. */
 enum class WhisperCadence(val label: String, val detail: String, val slots: List<WhisperSlot>) {
     FULL(
-        "Through the day",
-        "Five whispers: dawn, midday, afternoon, evening and night.",
+        "5 a day",
+        "Morning, midday, afternoon, evening and night.",
         WhisperSlot.entries.toList()
     ),
     STEADY(
-        "Steady",
-        "Four whispers: dawn, afternoon, evening and night.",
+        "4 a day",
+        "Morning, afternoon, evening and night.",
         listOf(WhisperSlot.DAWN, WhisperSlot.AFTERNOON, WhisperSlot.EVENING, WhisperSlot.NIGHT)
     ),
     QUIET(
-        "Quiet",
-        "Two whispers: one to plan the day, one to prepare tomorrow.",
+        "2 a day",
+        "One in the morning to plan your day, one at night to plan tomorrow.",
         listOf(WhisperSlot.DAWN, WhisperSlot.NIGHT)
     );
 
@@ -123,84 +123,84 @@ object WhisperCopy {
             WhisperSlot.DAWN -> when {
                 day.unwritten -> message(
                     slot, WhisperRoute.PREPARE, seed,
-                    "Name one thing worth protecting today. The gates are open.",
-                    "A fresh morning over the Citadel. What will you set down today?",
-                    "The scouts are waiting for today's orders. One is enough to begin."
+                    "What's one thing you want to do today?",
+                    "A new day. Add a task to get started.",
+                    "Nothing planned yet. One task is enough to begin."
                 )
                 day.allKept -> message(
                     slot, WhisperRoute.HEARTH, seed,
-                    "Every lantern is already lit. The day is entirely yours."
+                    "Everything is already done. The day is yours."
                 )
                 else -> message(
                     slot, WhisperRoute.HEARTH, seed,
-                    "Today's orders: ${ordersLine(first!!, day.prepared)} The gates are open.",
-                    "Dawn over the Citadel. First on the wall today: $first.",
-                    "${promises(day.prepared).replaceFirstChar { it.uppercase() }} set down for today. Begin with whichever feels lightest."
+                    "Today: ${ordersLine(first!!, day.prepared)}",
+                    "First up today: $first.",
+                    "You have ${tasks(day.prepared)} today. Start with the easiest one."
                 )
             }
 
             WhisperSlot.MIDDAY -> watch(
                 slot, day, alreadyCelebrated,
                 unwritten = listOf(
-                    "The day is still unwritten. Even one small promise lights a lantern.",
-                    "Midday over the Citadel. There's still room to name one thing."
+                    "Nothing planned yet. Even one small task lights a lantern.",
+                    "It's midday. There's still time to add one thing."
                 ),
                 none = listOf(
-                    "One lantern changes the whole valley. $next would light the first.",
-                    "Midday, and nothing is urgent — but $next would warm the walls."
+                    "One task lights the first lantern. How about $next?",
+                    "No rush, but $next would be a good one to do next."
                 ),
                 some = listOf(
-                    "${lanterns(day.kept)} lit before noon. Next on the wall: $next.",
-                    "The walls are warming — ${lanterns(day.kept)} lit. $next is up next."
+                    "${done(day.kept).replaceFirstChar { it.uppercase() }} before noon. Next up: $next.",
+                    "Nice progress, ${done(day.kept)}. Next: $next."
                 ),
-                all = "Every lantern lit by midday. Go and enjoy the rest of it."
+                all = "Everything done by midday. Enjoy the rest of it."
             )
 
             WhisperSlot.AFTERNOON -> watch(
                 slot, day, alreadyCelebrated,
                 unwritten = listOf(
-                    "The afternoon light is long. It isn't too late to name one thing.",
-                    "A quiet afternoon over the Citadel. One promise would light a lantern."
+                    "There's still time today to add one thing.",
+                    "A quiet afternoon. One task would light a lantern."
                 ),
                 none = listOf(
-                    "The afternoon light is long. There's time yet for $next.",
-                    "The afternoon watch has begun. $next is waiting whenever you are."
+                    "There's still time for $next.",
+                    "$next is waiting whenever you're ready."
                 ),
                 some = listOf(
-                    "${day.kept} of ${day.prepared} lanterns lit. The walls are warmer than they were at dawn.",
-                    "Good ground gained today. $next would light another lantern."
+                    "${day.kept} of ${day.prepared} done. Your castle is brighter than this morning.",
+                    "Good progress today. $next would light another lantern."
                 ),
-                all = "Every lantern is lit, and the afternoon is still yours."
+                all = "Everything is done, and the afternoon is still yours."
             )
 
             WhisperSlot.EVENING -> watch(
                 slot, day, alreadyCelebrated,
                 unwritten = listOf(
-                    "The fire is stoked for the evening. Tomorrow can be planned tonight, if you like."
+                    "Want to plan tomorrow tonight? It only takes a minute."
                 ),
                 none = listOf(
-                    "The fire is stoked. If anything got done today, come and light its lantern.",
-                    "Evening at the hearth. Come and mark whatever you kept today."
+                    "Did you finish anything today? Tick it off to light a lantern.",
+                    "Evening check-in. Tick off whatever you got done today."
                 ),
                 some = listOf(
-                    "The fire is stoked — ${lanterns(day.kept)} already lit. Come and mark the rest of what you kept.",
-                    "Evening at the hearth. ${lanterns(day.kept).replaceFirstChar { it.uppercase() }} burn along the wall tonight."
+                    "${done(day.kept).replaceFirstChar { it.uppercase() }} today. Tick off anything else you finished.",
+                    "${done(day.kept).replaceFirstChar { it.uppercase() }} today. Nice work."
                 ),
-                all = "Every lantern is lit tonight. Well marched, Commander.",
+                all = "Everything done today. Great work.",
                 unwrittenRoute = WhisperRoute.RITUAL
             )
 
             WhisperSlot.NIGHT -> when {
                 day.tomorrow.isNotEmpty() -> message(
                     slot, WhisperRoute.HEARTH, seed,
-                    "Tomorrow already has its orders. Rest now — we begin again at dawn.",
-                    "The gates are ready for morning. Sleep well, Commander."
+                    "Tomorrow is already planned. Rest well.",
+                    "All set for tomorrow. Sleep well."
                 )
                 else -> message(
                     slot, WhisperRoute.RITUAL, seed,
-                    "The scouts await tomorrow's orders. A minute now makes the morning lighter.",
-                    "Before you sleep: what will tomorrow protect? The ritual takes a minute.",
-                    "The watch is changing. Tomorrow can be given a shape, if you like."
+                    "Plan tomorrow before bed? It only takes a minute.",
+                    "What do you want to do tomorrow? Add it now and the morning is easier.",
+                    "Take a minute to plan tomorrow, if you like."
                 )
             }
         }
@@ -241,11 +241,11 @@ object WhisperCopy {
         else -> "$first, and ${prepared - 1} more."
     }
 
-    private fun promises(n: Int) = if (n == 1) "one promise" else "$n promises"
+    private fun tasks(n: Int) = if (n == 1) "one task" else "$n tasks"
 
-    private fun lanterns(n: Int) = if (n == 1) "one lantern" else "$n lanterns"
+    private fun done(n: Int) = if (n == 1) "one done" else "$n done"
 
-    /** Mission titles are the Commander's own words; long ones are trimmed, never rewritten. */
+    /** Task titles are the user's own words; long ones are trimmed, never rewritten. */
     fun shorten(title: String, max: Int = 42): String {
         val clean = title.trim().replace(Regex("\\s+"), " ")
         return if (clean.length <= max) clean else clean.take(max - 1).trimEnd() + "…"

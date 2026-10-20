@@ -143,7 +143,8 @@ class CitadelRepository(
                         status = MissionStatus.ACTIVE,
                         dayKey = dayKey,
                         completedAt = null,
-                        carried = resting.carried + 1
+                        // Skipped and brought back on the same day is not "carried over".
+                        carried = resting.carried + if (resting.dayKey != dayKey) 1 else 0
                     )
                 } else {
                     it

@@ -1,6 +1,6 @@
 # Citadel — Privacy Policy
 
-_Effective 27 September 2026_
+_Effective 20 October 2026_
 
 ## The short version
 
@@ -8,19 +8,19 @@ Citadel keeps everything on your phone. There is no account, no advertising, no 
 
 ## What Citadel stores
 
-The missions you write, the Chronicle of past days, your kingdom's totals and your settings. All of it lives in Citadel's private storage on your device, where other apps cannot read it.
+The tasks you write, your history of past days, your castle's totals and your settings. All of it lives in Citadel's private storage on your device, where other apps cannot read it.
 
 ## What leaves your device
 
 Nothing is sent to the developer or to anyone else. If you have Android's own device backup turned on, Android may include Citadel's data in that backup; it is handled by Google under your device's backup settings, not by Citadel.
 
-## Whispers and the widget
+## Reminders and the widget
 
-Whispers are written on your device from your own missions. On the lock screen they show only a private version. If you add the home-screen widget, today's mission titles appear on your home screen, where anyone who can see your screen can read them.
+Reminders are written on your device from your own tasks. On the lock screen they show only a private version. If you add the home-screen widget, today's task titles appear on your home screen, where anyone who can see your screen can read them.
 
 ## Your control
 
-"Let it go" deletes a mission. Clearing Citadel's storage in system settings, or uninstalling the app, removes everything it has stored. Whispers can be changed or turned off at any time in the Sanctuary or in your system settings.
+"Delete" removes a task for good. Clearing Citadel's storage in system settings, or uninstalling the app, removes everything it has stored. Reminders can be changed or turned off at any time in Settings or in your phone's settings.
 
 ## Children
 

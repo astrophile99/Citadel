@@ -94,7 +94,7 @@ fun RitualScreen(
             Spacer(Modifier.height(24.dp))
 
             Text(
-                text = "Tomorrow",
+                text = "Plan tomorrow",
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -109,7 +109,7 @@ fun RitualScreen(
             LanternRow(lit = tomorrow.size, of = suggested)
             Spacer(Modifier.height(10.dp))
             Text(
-                text = "Around $suggested is a good night's plan. Fewer is also a plan.",
+                text = "About $suggested tasks is a good plan. Fewer is fine too.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f)
             )
@@ -117,7 +117,7 @@ fun RitualScreen(
             Spacer(Modifier.height(32.dp))
 
             if (tomorrow.isNotEmpty()) {
-                SectionLabel("The orders")
+                SectionLabel("Tomorrow's tasks")
                 Spacer(Modifier.height(14.dp))
                 Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     tomorrow.forEach { mission ->
@@ -128,7 +128,7 @@ fun RitualScreen(
             }
 
             GoldButton(
-                text = "Prepare a mission",
+                text = "Add a task",
                 onClick = onPrepare,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -136,7 +136,7 @@ fun RitualScreen(
             Spacer(Modifier.height(12.dp))
 
             QuietButton(
-                text = "Close the gates",
+                text = "Done for tonight",
                 onClick = onCloseGates,
                 modifier = Modifier.fillMaxWidth()
             )

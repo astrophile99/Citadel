@@ -10,6 +10,7 @@ import dev.atharva.citadel.data.model.MissionImpact
 import dev.atharva.citadel.data.model.MissionStatus
 import dev.atharva.citadel.data.model.Recurrence
 import dev.atharva.citadel.data.store.CitadelStorage
+import dev.atharva.citadel.domain.DaySweep
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -306,5 +307,68 @@ class DaySweepTest {
 
         assertEquals(MissionStatus.ACTIVE, repository.data.value.missions.first().status)
         assertEquals(Homecoming.None, repository.homecoming.value)
+    }
+
+    @Test
+    fun `a task skipped and brought back the same day is not carried over`() = runBlocking {
+        val clock = FixedClock(LocalDateTime.of(2026, 3, 11, 9, 0))
+        val store = MemoryStore(
+            CitadelData(
+                missions = listOf(mission("Walk", "2026-03-11")),
+                kingdom = KingdomState(foundedDayKey = "2026-03-01", lastActiveDayKey = "2026-03-11")
+            )
+        )
+        val repository = CitadelRepository(store, clock)
+        repository.awaken()
+
+        repository.setAside("Walk")
+        assertEquals(MissionStatus.RESTING, repository.data.value.missions.first().status)
+        repository.continueMission("Walk", "2026-03-11")
+
+        val walk = repository.data.value.missions.first()
+        assertEquals(MissionStatus.ACTIVE, walk.status)
+        assertEquals(0, walk.carried)
+    }
+
+    @Test
+    fun `a task brought back from an earlier day is carried over`() = runBlocking {
+        val clock = FixedClock(LocalDateTime.of(2026, 3, 11, 9, 0))
+        val store = MemoryStore(
+            CitadelData(
+                missions = listOf(mission("Walk", "2026-03-09", MissionStatus.RESTING)),
+                kingdom = KingdomState(foundedDayKey = "2026-03-01", lastActiveDayKey = "2026-03-11")
+            )
+        )
+        val repository = CitadelRepository(store, clock)
+        repository.awaken()
+
+        repository.continueMission("Walk", "2026-03-11")
+
+        assertEquals(1, repository.data.value.missions.first().carried)
+    }
+
+    @Test
+    fun `deleting a task removes only that task`() = runBlocking {
+        val clock = FixedClock(LocalDateTime.of(2026, 3, 11, 9, 0))
+        val store = MemoryStore(
+            CitadelData(
+                missions = listOf(mission("Walk", "2026-03-11"), mission("Read", "2026-03-11")),
+                kingdom = KingdomState(foundedDayKey = "2026-03-01", lastActiveDayKey = "2026-03-11")
+            )
+        )
+        val repository = CitadelRepository(store, clock)
+        repository.awaken()
+
+        repository.release("Walk")
+
+        assertEquals(listOf("Read"), repository.data.value.missions.map { it.title })
+        assertEquals(listOf("Read"), store.data.missions.map { it.title })
+    }
+
+    @Test
+    fun `notes saved by version 1_0_0 read in plain words`() {
+        assertEquals("A good, busy day.", DaySweep.plainNote("Good work along the walls."))
+        assertEquals("Everything done. A great day.", DaySweep.plainNote("Every promise kept. The lanterns burned late."))
+        assertEquals("Something new", DaySweep.plainNote("Something new"))
     }
 }

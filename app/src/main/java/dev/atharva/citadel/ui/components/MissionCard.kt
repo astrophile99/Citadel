@@ -19,6 +19,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -95,7 +99,7 @@ fun MissionCard(
         label = "title"
     )
 
-    val state = if (kept) "Kept" else "Not yet kept"
+    val state = if (kept) "Done" else "Not done"
 
     Surface(
         color = container,
@@ -116,12 +120,12 @@ fun MissionCard(
                 indication = null,
                 onClick = { onToggle(!kept) },
                 onLongClick = onOpen,
-                onClickLabel = if (kept) "Mark as not yet kept" else "Mark as kept",
-                onLongClickLabel = "Open promise"
+                onClickLabel = if (kept) "Mark as not done" else "Mark as done",
+                onLongClickLabel = "Edit task"
             )
     ) {
         Row(
-            modifier = Modifier.padding(horizontal = 18.dp, vertical = 18.dp),
+            modifier = Modifier.padding(start = 18.dp, end = 4.dp, top = 12.dp, bottom = 12.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -137,6 +141,15 @@ fun MissionCard(
                     color = titleColor
                 )
                 ImpactLabel(impact = mission.impact, dimmed = kept, carried = mission.carried)
+            }
+            // Done, skip, delete and edit live behind this button. Long-press still works,
+            // but testers never found it, so the way in is now always visible.
+            IconButton(onClick = onOpen) {
+                Icon(
+                    imageVector = Icons.Filled.MoreVert,
+                    contentDescription = "Options for ${mission.title}",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                )
             }
         }
     }
@@ -225,7 +238,7 @@ private fun ImpactLabel(impact: MissionImpact, dimmed: Boolean, carried: Int) {
         if (carried > 0) {
             // Stated once, never counted. "Carried" is a fact about the promise, not a score.
             Text(
-                text = "·  CARRIED",
+                text = "·  CARRIED OVER",
                 style = MaterialTheme.typography.labelSmall,
                 color = textColor.copy(alpha = 0.6f)
             )

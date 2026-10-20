@@ -1,34 +1,37 @@
-Citadel is a task app that doesn't feel like one.
+Citadel is a calm to-do app with a little castle.
 
-Every day you name a few real things you mean to do — study, a walk, a phone call you've been putting off. Each becomes a mission. Keep one, and your Citadel answers: a lantern lights along the wall, the windows warm, the campfire grows. Keep them for weeks, and the kingdom slowly comes to life — flowers by the walls, birds on the roofs, one sleepy hound by the fire.
+Each day, add a few real things you want to do: study, a walk, that phone call you keep putting off. When you finish one, tap it and a lantern lights up on the castle wall. The windows glow and the fire grows. Keep going for a few weeks and the castle comes to life, with flowers by the walls, birds on the roofs and a sleepy dog by the fire.
 
-That is the whole reward. No points, no badges, no streaks to lose.
+That's the whole reward. No points, no badges, no streaks to lose.
 
-A PLACE, NOT A LIST
-The world is the app. It follows the real time of day — mist at dawn, long light in the afternoon, a warm horizon at dusk, stars at night — and your missions sit on its lower ground rather than beneath a picture of it.
+YOUR DAY, AS A PLACE
+The castle follows the real time of day: misty mornings, long afternoons, warm sunsets and starry nights. Your tasks sit right on top of it.
 
 NO GUILT, EVER
-• Unfinished missions are never "overdue" or "failed". They rest in the Chronicle, ready to continue whenever you like.
-• Time away brings a little mist over the valley — never ruin. Everything you've built stays built.
-• There is no streak counter, because one bad week shouldn't erase a good month.
+• Unfinished tasks are never "overdue". They wait in History, and you can bring them back whenever you like.
+• Time away only brings a little mist. Nothing you build is ever lost.
+• There's no streak counter, because one bad week shouldn't erase a good month.
 
-A SHORT RITUAL EACH EVENING
-Before sleep, prepare tomorrow's missions. Around five is a good night's plan; fewer is also a plan. In the morning, the gates are already open.
+SIMPLE TASK CONTROLS
+Every task has three clear buttons: Done, Skip and Delete. Skipped tasks wait in History for another day.
 
-WHISPERS THROUGH THE DAY
-If you'd like, the kingdom can send a few quiet notifications — at dawn to plan the day, at midday, afternoon and evening to follow through, and at night to prepare tomorrow. Choose five, four or two a day, move them to your own hours, or turn them off. They never nag, they replace each other instead of piling up, and they stay silent while you're already in the app.
+PLAN TOMORROW IN A MINUTE
+Before bed, add tomorrow's tasks. About five is a good plan; fewer is fine too.
 
-A WINDOW ON YOUR HOME SCREEN
-The Citadel widget shows your kingdom at this hour and the promises you've set for today, drawn by the same hand as the app.
+FRIENDLY REMINDERS
+If you like, Citadel can send a few gentle reminders: in the morning to plan, at midday, afternoon and evening to check in, and at night to plan tomorrow. Choose five, four or two a day, set your own times, or turn them off. They never nag, they replace each other instead of piling up, and they stay quiet while you're using the app.
 
-YOURS ALONE
-Everything stays on your phone. No account, no ads, no analytics, no tracking — Citadel doesn't even ask for internet access.
+A HOME-SCREEN WIDGET
+See your castle and today's tasks right on your home screen.
+
+PRIVATE BY DESIGN
+Everything stays on your phone. No account, no ads, no analytics, no tracking. Citadel doesn't even ask for internet access.
 
 Also:
-• A five-page guide on first launch, and any time from the Sanctuary
-• Weighted missions — a Skirmish, a Fortification or an Expedition — so the big things move the world more
-• Daily missions that renew themselves each morning
-• Respects your system's "remove animations" setting
-• Built for dark rooms: readable, calm, gold only where it matters
+• A short guide on first launch, and any time from Settings
+• Task sizes (Small, Medium, Big), so bigger tasks light up the castle more
+• Daily tasks that come back fresh every morning
+• Respects your phone's "remove animations" setting
+• Easy on the eyes in dark rooms
 
-Citadel is for anyone who has quit a productivity app because it made them feel behind. Open it, see what matters today, then close it and go live your day. The kingdom will be here when you come back.
+Citadel is for anyone who has given up on a to-do app because it made them feel behind. Open it, see what matters today, then go live your day. Your castle will be here when you come back.

@@ -37,9 +37,9 @@ enum class Destination(
     val label: String,
     @param:DrawableRes val icon: Int
 ) {
-    HEARTH("Hearth", R.drawable.ic_hearth),
-    CHRONICLE("Chronicle", R.drawable.ic_chronicle),
-    SANCTUARY("Sanctuary", R.drawable.ic_sanctuary)
+    HEARTH("Today", R.drawable.ic_hearth),
+    CHRONICLE("History", R.drawable.ic_chronicle),
+    SANCTUARY("Settings", R.drawable.ic_sanctuary)
 }
 
 /**

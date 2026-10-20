@@ -138,7 +138,7 @@ fun SanctuaryScreen(
         ) {
             Spacer(Modifier.height(36.dp))
             Text(
-                text = "Sanctuary",
+                text = "Settings",
                 style = MaterialTheme.typography.displayMedium,
                 color = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.semantics { heading() }
@@ -148,32 +148,32 @@ fun SanctuaryScreen(
             KingdomRecord(kingdom)
 
             // ---- the world ----
-            Section("The world")
+            Section("Look and feel")
             ToggleRow(
-                title = "Ambience",
-                detail = "Drifting cloud, mist, firelight. Turning this off makes the world still, not empty.",
+                title = "Moving scenery",
+                detail = "Clouds, mist and firelight move gently. Turn this off for a still picture.",
                 checked = settings.ambience && !systemStillness,
                 enabled = !systemStillness,
                 onChange = { on -> onUpdate { it.copy(ambience = on) } }
             )
             if (systemStillness) {
                 Spacer(Modifier.height(10.dp))
-                Note("Your system has animations turned off, so the Citadel is holding still. That setting wins.")
+                Note("Animations are turned off on your phone, so the picture stays still.")
             }
             Spacer(Modifier.height(10.dp))
             ToggleRow(
-                title = "Arrive every time",
-                detail = "By default the world only assembles itself once a day.",
+                title = "Play the opening every time",
+                detail = "Normally the castle builds itself only on your first visit each day.",
                 checked = settings.alwaysArrive,
                 onChange = { on -> onUpdate { it.copy(alwaysArrive = on) } }
             )
 
             // ---- whispers ----
-            Section("Whispers")
+            Section("Reminders")
             ToggleRow(
-                title = "Messages from the kingdom",
-                detail = "Up to five a day — to plan at dawn, follow through at midday, afternoon and " +
-                    "evening, and prepare tomorrow at night. Never guilt, never streaks.",
+                title = "Daily reminders",
+                detail = "Up to five a day: in the morning to plan, at midday, afternoon and evening to check in, " +
+                    "and at night to plan tomorrow. Friendly, never pushy.",
                 checked = settings.whispers && canNotify,
                 onChange = { on ->
                     when {
@@ -225,43 +225,43 @@ fun SanctuaryScreen(
                     Note(settings.whisperCadence.detail)
                     Spacer(Modifier.height(2.dp))
                     TimeRow(
-                        label = "Dawn whisper",
+                        label = "Morning reminder",
                         minute = settings.dawnWhisperMinute,
                         range = WhisperSchedule.MORNING_RANGE,
                         onChange = { m -> onUpdate { it.copy(dawnWhisperMinute = m) } }
                     )
                     TimeRow(
-                        label = "Night whisper",
+                        label = "Night reminder",
                         minute = settings.eveningWhisperMinute,
                         range = WhisperSchedule.NIGHT_RANGE,
                         onChange = { m -> onUpdate { it.copy(eveningWhisperMinute = m) } }
                     )
-                    Note("Today they arrive at " + scheduleLine(settings) + ".")
+                    Note("Today they come at " + scheduleLine(settings) + ".")
                 }
             }
 
             // ---- ritual ----
-            Section("The evening ritual")
+            Section("Evening planning")
             CounterRow(
-                label = "Promises suggested for tomorrow",
+                label = "Suggested tasks for tomorrow",
                 value = settings.suggestedMissions,
                 range = 1..8,
                 onChange = { n -> onUpdate { it.copy(suggestedMissions = n) } }
             )
             Spacer(Modifier.height(8.dp))
-            Note("A suggestion, never a requirement. The Citadel does not check.")
+            Note("Just a suggestion. Plan as many or as few as you like.")
 
             // ---- home screen ----
             Section("On your home screen")
             Text(
-                text = "A small window into the kingdom: today's light, and the promises you set.",
+                text = "See your castle and today's tasks right on your home screen.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
             )
             Spacer(Modifier.height(12.dp))
             if (remember { CitadelWidget.canRequestPin(context) }) {
                 QuietButton(
-                    text = "Place the Citadel widget",
+                    text = "Add the Citadel widget",
                     onClick = { CitadelWidget.requestPin(context) },
                     modifier = Modifier.fillMaxWidth()
                 )
@@ -270,7 +270,7 @@ fun SanctuaryScreen(
             }
 
             // ---- guide & about ----
-            Section("Guide")
+            Section("Help")
             LinkRow("How Citadel works", onClick = onReplayTour)
             LinkRow("Privacy", onClick = { showPrivacy = true })
 
@@ -278,8 +278,8 @@ fun SanctuaryScreen(
             Hairline()
             Spacer(Modifier.height(20.dp))
             Text(
-                text = "Everything the Citadel remembers is stored on this device only. " +
-                    "There is no account, no sync and no analytics.",
+                text = "Everything is saved on this phone only. " +
+                    "There is no account, no sync and no tracking.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.62f)
             )
@@ -331,13 +331,13 @@ private fun KingdomRecord(kingdom: KingdomState) {
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(
-            text = "Your Citadel has stood since $founded.",
+            text = "You started your Citadel on $founded.",
             style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface
         )
         Row(horizontalArrangement = Arrangement.spacedBy(34.dp)) {
-            Record(kingdom.daysProtected.toString(), "days protected")
-            Record(kingdom.totalKept.toString(), "promises kept")
+            Record(kingdom.daysProtected.toString(), "days with a task done")
+            Record(kingdom.totalKept.toString(), "tasks done")
         }
     }
 }

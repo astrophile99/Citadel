@@ -8,7 +8,7 @@ package dev.atharva.citadel.ui.sanctuary
  */
 object PrivacyPolicy {
 
-    const val EFFECTIVE = "27 September 2026"
+    const val EFFECTIVE = "20 October 2026"
     const val CONTACT_URL = "https://github.com/astrophile99/Citadel/issues"
 
     class Section(val heading: String, val body: String)
@@ -21,7 +21,7 @@ object PrivacyPolicy {
         ),
         Section(
             "What Citadel stores",
-            "The missions you write, the Chronicle of past days, your kingdom's totals and your " +
+            "The tasks you write, your history of past days, your castle's totals and your " +
                 "settings. All of it lives in Citadel's private storage on your device, where other " +
                 "apps cannot read it."
         ),
@@ -32,16 +32,16 @@ object PrivacyPolicy {
                 "by Google under your device's backup settings, not by Citadel."
         ),
         Section(
-            "Whispers and the widget",
-            "Whispers are written on your device from your own missions. On the lock screen they " +
-                "show only a private version. If you add the home-screen widget, today's mission " +
+            "Reminders and the widget",
+            "Reminders are written on your device from your own tasks. On the lock screen they " +
+                "show only a private version. If you add the home-screen widget, today's task " +
                 "titles appear on your home screen, where anyone who can see your screen can read them."
         ),
         Section(
             "Your control",
-            "\"Let it go\" deletes a mission. Clearing Citadel's storage in system settings, or " +
-                "uninstalling the app, removes everything it has stored. Whispers can be changed or " +
-                "turned off at any time in the Sanctuary or in your system settings."
+            "\"Delete\" removes a task for good. Clearing Citadel's storage in system settings, or " +
+                "uninstalling the app, removes everything it has stored. Reminders can be changed or " +
+                "turned off at any time in Settings or in your phone's settings."
         ),
         Section(
             "Children",

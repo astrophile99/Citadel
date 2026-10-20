@@ -179,7 +179,7 @@ class CitadelWidget : AppWidgetProvider() {
                     )
                     views.setContentDescription(
                         row.container,
-                        "${mission.title}, ${if (mission.isComplete) "kept" else "not yet kept"}"
+                        "${mission.title}, ${if (mission.isComplete) "done" else "not done"}"
                     )
                 }
             }
@@ -189,20 +189,20 @@ class CitadelWidget : AppWidgetProvider() {
         }
 
         private fun greeting(phase: DayPhase): String = when (phase) {
-            DayPhase.DAWN -> "Good morning, Commander."
+            DayPhase.DAWN -> "Good morning."
             DayPhase.DAY -> "The day is yours."
-            DayPhase.DUSK -> "Welcome home, Commander."
-            DayPhase.NIGHT -> "The watch is set."
+            DayPhase.DUSK -> "Good evening."
+            DayPhase.NIGHT -> "Good night."
         }
 
         private fun status(day: DayView, shown: Int): String {
             val more = (day.prepared - shown).takeIf { shown > 0 && it > 0 }
             val base = when {
-                day.unwritten -> "Nothing set down yet · tap to begin"
-                day.allKept -> "Every lantern is lit"
-                else -> "${day.kept} of ${day.prepared} lanterns lit"
+                day.unwritten -> "Nothing planned yet · tap to add"
+                day.allKept -> "All done for today"
+                else -> "${day.kept} of ${day.prepared} done"
             }
-            return if (more != null && !day.allKept) "$base · $more more inside" else base
+            return if (more != null && !day.allKept) "$base · $more more" else base
         }
 
         private fun openApp(context: Context): PendingIntent {

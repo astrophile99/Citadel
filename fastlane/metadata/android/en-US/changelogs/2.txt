@@ -1,0 +1,5 @@
+Thanks to our testers for their feedback:
+• Simpler words everywhere: tasks, History, Settings, Small/Medium/Big
+• New Done, Skip and Delete buttons on every task (tap the three dots)
+• Delete now asks before removing a task
+• Friendlier reminder messages

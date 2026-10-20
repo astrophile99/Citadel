@@ -83,7 +83,7 @@ object Whispers {
                 "Planning the day",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "At dawn, to name the day's promises. At night, to prepare tomorrow."
+                description = "In the morning to plan your day, and at night to plan tomorrow."
                 enableVibration(false)
                 setShowBadge(false)
             }
@@ -91,10 +91,10 @@ object Whispers {
         manager.createNotificationChannel(
             NotificationChannel(
                 CHANNEL_WATCH,
-                "Through the day",
+                "Check-ins",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "Midday, afternoon and evening check-ins on the promises you set."
+                description = "Midday, afternoon and evening check-ins on the tasks you planned."
                 enableVibration(false)
                 setShowBadge(false)
             }
@@ -200,7 +200,7 @@ object Whispers {
             .setSmallIcon(R.drawable.ic_whisper)
             .setColor(GOLD)
             .setContentTitle(message.title)
-            .setContentText("A whisper from the Citadel.")
+            .setContentText("A reminder from Citadel.")
             .build()
 
         val notification = Notification.Builder(context, channel)

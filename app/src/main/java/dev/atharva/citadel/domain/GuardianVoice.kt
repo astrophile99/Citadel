@@ -17,17 +17,17 @@ import kotlin.math.abs
  */
 object GuardianVoice {
 
-    // ---- the headline the Commander is greeted with ---------------------------------
+    // ---- the headline you are greeted with ------------------------------------------
 
     fun greeting(phase: DayPhase, homecoming: Homecoming): String = when (homecoming) {
-        is Homecoming.First -> "The gates are open, Commander."
-        is Homecoming.LongAway -> "Welcome home, Commander."
-        is Homecoming.Away -> "Welcome back, Commander."
+        is Homecoming.First -> "Welcome to Citadel."
+        is Homecoming.LongAway -> "Welcome back."
+        is Homecoming.Away -> "Welcome back."
         else -> when (phase) {
-            DayPhase.DAWN -> "Good morning, Commander."
-            DayPhase.DAY -> "The day is yours, Commander."
-            DayPhase.DUSK -> "Welcome home, Commander."
-            DayPhase.NIGHT -> "The watch is set, Commander."
+            DayPhase.DAWN -> "Good morning."
+            DayPhase.DAY -> "The day is yours."
+            DayPhase.DUSK -> "Good evening."
+            DayPhase.NIGHT -> "Good night."
         }
     }
 
@@ -35,35 +35,35 @@ object GuardianVoice {
     fun subtitle(phase: DayPhase, world: WorldState, homecoming: Homecoming): String {
         when (homecoming) {
             is Homecoming.First ->
-                return "This is your Citadel. It will be here whenever you are."
+                return "This is your castle. Add a task, and finishing it lights the first lantern."
             is Homecoming.LongAway ->
-                return "The mist came in while you were gone. It always lifts."
+                return "Some mist rolled in while you were away. It clears as you get going."
             is Homecoming.Away ->
-                return "Nothing was lost. The hearth kept itself."
+                return "Nothing was lost while you were away."
             else -> Unit
         }
 
         return when {
             world.dayIsUnwritten && phase == DayPhase.NIGHT ->
-                "Nothing is set down for today. That is allowed."
+                "Nothing planned for today. That's okay."
             world.dayIsUnwritten ->
-                "Nothing is set down yet. Name what matters and the rest can wait."
+                "Nothing planned yet. Add one thing that matters."
             world.everythingKept && phase == DayPhase.NIGHT ->
-                "Everything you set down is done. Rest properly."
+                "Everything is done. Get some rest."
             world.everythingKept ->
-                "Everything you set down is done. The walls are bright."
+                "Everything is done. Your castle is glowing."
             world.keptToday > 0 && phase == DayPhase.NIGHT ->
-                "The lanterns are lit along the wall. Let the rest wait for morning."
+                "Lanterns are lit. The rest can wait until morning."
             world.keptToday > 0 && phase == DayPhase.DAWN ->
-                "A lantern is already lit. The day has started well."
+                "A lantern is already lit. Great start."
             world.keptToday > 0 ->
-                "The wall is warmer than it was this morning."
+                "Your castle is brighter than it was this morning."
             phase == DayPhase.NIGHT ->
-                "The gates are open whenever you return."
+                "Come back whenever you're ready."
             phase == DayPhase.DUSK ->
-                "The fire is stoked. Come and sit when you are ready."
+                "The fire is lit. Finish what you can."
             else ->
-                "Here is what you chose to protect today."
+                "Here's what you planned for today."
         }
     }
 
@@ -97,86 +97,87 @@ object GuardianVoice {
     // ---- the ritual -----------------------------------------------------------------
 
     fun ritualInvitation(preparedForTomorrow: Int, suggested: Int): String = when {
-        preparedForTomorrow == 0 -> "The scouts are waiting for tomorrow's orders."
-        preparedForTomorrow < suggested -> "The road is taking shape."
-        else -> "The gates are ready for morning."
+        preparedForTomorrow == 0 -> "Want to plan tomorrow?"
+        preparedForTomorrow < suggested -> "Tomorrow is taking shape."
+        else -> "Tomorrow is ready."
     }
 
     fun ritualClosing(preparedForTomorrow: Int): String = when {
-        preparedForTomorrow == 0 -> "Nothing set down. Tomorrow can decide for itself."
-        preparedForTomorrow == 1 -> "One promise for the morning. That is a real plan."
-        else -> "Rest now. We begin again at dawn."
+        preparedForTomorrow == 0 -> "Nothing planned yet. That's okay too."
+        preparedForTomorrow == 1 -> "One task for tomorrow. That's a real plan."
+        else -> "Rest well. See you in the morning."
     }
 
     // ---- lines ----------------------------------------------------------------------
+    // Plain, everyday words. Testers asked for language anyone can read at a glance.
 
     private val DAWN = listOf(
-        "The kettle is on. Warm your hands before the march.",
-        "Mist is coming off the meadows. It will burn away by noon.",
-        "The scouts came back with clear roads. Nothing waiting in ambush.",
-        "Morning is the cheapest hour to spend. Spend a little of it well.",
-        "The gate was opened before you woke. Someone always does."
+        "Start with something small.",
+        "Mornings are a good time for the hard task.",
+        "One task at a time is enough.",
+        "A fresh start. Pick one thing to begin with.",
+        "No rush. Just begin."
     )
 
     private val DAY = listOf(
-        "The walls hold. They mostly just need someone to walk them.",
-        "A deep well gives slowly. Draw from it slowly.",
-        "Wind from the east today. Good weather for hard things.",
-        "One thing at a time is not slow. It is how walls get built.",
-        "The kingdom is quiet, which is what a kingdom should be."
+        "Keep going. You're doing fine.",
+        "Slow and steady still gets there.",
+        "Take a short break, then do one more thing.",
+        "Small steps build big walls.",
+        "It's a calm day in the castle."
     )
 
     private val DUSK = listOf(
-        "The sun is off the ridge. Put your boots by the fire.",
-        "Whatever the day took, the evening gives a little back.",
-        "The light goes, the hearth stays. That has always been the arrangement.",
-        "The watch is changing at the gates. Yours can change too.",
-        "Long marches end the same way as short ones. Sitting down."
+        "The day is winding down. Be kind to yourself.",
+        "Whatever happened today, the evening is yours.",
+        "Finish one more thing, or rest. Both are fine.",
+        "Time to slow down.",
+        "A good time to plan tomorrow."
     )
 
     private val NIGHT = listOf(
-        "The stars are steady tonight. They keep watch better than I do.",
-        "Sleep fortifies more than stone does.",
-        "The embers will hold until morning. They usually do.",
-        "Nothing needs your attention until dawn. Nothing.",
-        "The Citadel is safe tonight, Commander. Put it down."
+        "Rest well. Tomorrow is a new day.",
+        "Sleep helps more than you think.",
+        "Nothing needs you until morning.",
+        "The castle is safe tonight. You can put your phone down.",
+        "Good night. You did enough today."
     )
 
     private val WILD = listOf(
-        "The ivy got ambitious while you were away. It always does.",
-        "Nothing fell down. It only got quiet.",
-        "The road back is shorter than the road out. It always is.",
-        "The fire was banked, not out. It only needs a breath.",
-        "The gates recognised your step before I did."
+        "Welcome back. Nothing fell down.",
+        "It got a little quiet while you were away. That's all.",
+        "Coming back is the hardest part. You did it.",
+        "Start small. The castle wakes up fast.",
+        "Good to see you again."
     )
 
     private val FULFILLED = listOf(
-        "Everything you named is done. Sit down.",
-        "The wall is fully lit. There is nothing else asked of you today.",
-        "A clean day. Those are rarer than they should be.",
-        "That is the whole list. Go and be somewhere else.",
-        "Well marched, Commander. The rest of the evening is yours."
+        "Everything is done. Enjoy the rest of your day.",
+        "All your lanterns are lit. Nothing else to do today.",
+        "A great day. Well done.",
+        "That's everything. Go relax.",
+        "All done. The evening is yours."
     )
 
     private val FIRST_LIGHT = listOf(
-        "The first lantern is lit.",
-        "That one counted. The mist is already thinning.",
-        "There it is. The hard part was starting.",
-        "One light along the wall changes the whole valley."
+        "The first lantern is lit!",
+        "Nice! That one counts.",
+        "There it is. Starting is the hardest part.",
+        "One done. The castle is a little brighter."
     )
 
     private val ALL_KEPT = listOf(
-        "Every promise kept. The lanterns will burn late tonight.",
-        "The wall is lit end to end.",
-        "That is all of it. Close the app, Commander.",
-        "Nothing left on the board. Go live the rest of it."
+        "All done! The lanterns will glow all night.",
+        "Every lantern is lit.",
+        "That's all of it. Great work today.",
+        "Nothing left. Go enjoy your day."
     )
 
     private val TOMORROW_SET = listOf(
-        "The gates are ready. Rest now — we begin again at dawn.",
-        "The orders are with the scouts. Sleep.",
-        "Tomorrow has a shape. That is enough for tonight.",
-        "The watch is set for the night, Commander."
+        "Tomorrow is planned. Rest well.",
+        "All set for tomorrow. Sleep well.",
+        "Tomorrow has a plan. That's enough for tonight.",
+        "Done planning. Good night."
     )
 
     /**

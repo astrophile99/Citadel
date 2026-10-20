@@ -242,7 +242,7 @@ private fun Promises(
         if (state.today.isEmpty()) {
             // The greeting above already says the day is unwritten; one clear way in is enough.
             GoldButton(
-                text = "Prepare a mission",
+                text = "Add a task",
                 onClick = onPrepare,
                 icon = painterResource(R.drawable.ic_prepare),
                 modifier = Modifier.fillMaxWidth()
@@ -262,7 +262,7 @@ private fun Promises(
 
         Spacer(Modifier.height(2.dp))
         QuietButton(
-            text = "Prepare another",
+            text = "Add another task",
             onClick = onPrepare,
             modifier = Modifier.fillMaxWidth()
         )
@@ -302,7 +302,7 @@ private fun RitualInvitation(
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.86f)
         )
         QuietButton(
-            text = if (preparedForTomorrow == 0) "Prepare tomorrow" else "Look at tomorrow",
+            text = if (preparedForTomorrow == 0) "Plan tomorrow" else "See tomorrow's plan",
             onClick = onOpen,
             modifier = Modifier.fillMaxWidth()
         )

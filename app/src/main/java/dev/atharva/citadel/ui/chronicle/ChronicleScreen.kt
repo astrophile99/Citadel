@@ -82,13 +82,13 @@ fun ChronicleScreen(
             item {
                 Spacer(Modifier.height(36.dp))
                 Text(
-                    text = "The Chronicle",
+                    text = "History",
                     style = MaterialTheme.typography.displayMedium,
                     color = MaterialTheme.colorScheme.onBackground
                 )
                 Spacer(Modifier.height(10.dp))
                 Text(
-                    text = "Everything the Citadel remembers. Nothing here is a debt.",
+                    text = "Your past days. Nothing here is ever overdue.",
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.82f)
                 )
@@ -97,10 +97,10 @@ fun ChronicleScreen(
 
             if (waiting.isNotEmpty()) {
                 item {
-                    SectionLabel("Still waiting")
+                    SectionLabel("Not done yet")
                     Spacer(Modifier.height(4.dp))
                     Text(
-                        text = "Promises you have not finished with yet.",
+                        text = "Pick any of these up again whenever you like.",
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.65f)
                     )
@@ -120,15 +120,15 @@ fun ChronicleScreen(
                 item {
                     Spacer(Modifier.height(40.dp))
                     QuietState(
-                        line = "The Chronicle has not been opened yet.",
-                        detail = "It fills itself, a day at a time."
+                        line = "Nothing here yet.",
+                        detail = "Each day you use Citadel is saved here."
                     )
                 }
             }
 
             if (entries.isNotEmpty()) {
                 item {
-                    SectionLabel("Days")
+                    SectionLabel("Past days")
                     Spacer(Modifier.height(10.dp))
                 }
                 items(entries, key = { it.dayKey }) { entry ->
@@ -177,14 +177,14 @@ private fun WaitingRow(
         }
         // Never "restore" and never "recover". The Commander simply carries on with it.
         Text(
-            text = "Continue",
+            text = "Do today",
             style = MaterialTheme.typography.labelLarge,
             color = DawnGold,
             modifier = Modifier
                 .clip(MaterialTheme.shapes.small)
                 .clickable(
                     role = Role.Button,
-                    onClickLabel = "Continue ${mission.title} today",
+                    onClickLabel = "Do ${mission.title} today",
                     onClick = onContinue
                 )
                 .padding(horizontal = 12.dp, vertical = 10.dp)
@@ -229,7 +229,7 @@ private fun DayEntry(entry: ChronicleEntry) {
         }
 
         Text(
-            text = entry.note,
+            text = dev.atharva.citadel.domain.DaySweep.plainNote(entry.note),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
         )

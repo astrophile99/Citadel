@@ -188,19 +188,19 @@ fun TourScreen(
 
                     firstRun -> {
                         GoldButton(
-                            text = "Let the kingdom whisper",
+                            text = "Turn on reminders",
                             onClick = askForWhispers,
                             modifier = Modifier.fillMaxWidth()
                         )
                         QuietButton(
-                            text = "Enter without whispers",
+                            text = "Not now",
                             onClick = { onFinish(false) },
                             modifier = Modifier.fillMaxWidth()
                         )
                     }
 
                     else -> GoldButton(
-                        text = "Back to the Citadel",
+                        text = "Back to the app",
                         onClick = { onFinish(null) },
                         modifier = Modifier.fillMaxWidth()
                     )
@@ -312,40 +312,39 @@ private val TourPages = listOf(
     TourPage(
         eyebrow = "Welcome",
         title = "This is your Citadel.",
-        body = "Not a to-do list. A small kingdom that grows a little brighter every time " +
-            "you keep a promise to yourself — and waits patiently when you can't.",
+        body = "A to-do app with a little castle. Every time you finish something, " +
+            "the castle gets a bit brighter. When you can't, it simply waits for you.",
         demo = { sky -> WorldState(sky = sky, lightFraction = 0.12f, lanternsLit = 1, villageWarmth = 0.25f) }
     ),
     TourPage(
-        eyebrow = "Missions",
-        title = "Name what matters.",
-        body = "Each real thing you mean to do becomes a mission. Give it a weight — a " +
-            "Skirmish, a Fortification or an Expedition. Around five a day is plenty. One is enough.",
+        eyebrow = "Tasks",
+        title = "Add what matters.",
+        body = "Write down the real things you want to do today and pick a size: Small, " +
+            "Medium or Big. About five a day is plenty. One is enough.",
         demo = { sky -> WorldState(sky = sky, lightFraction = 0.12f, lanternsLit = 1, villageWarmth = 0.25f) }
     ),
     TourPage(
-        eyebrow = "The reward",
-        title = "Keep one, and the kingdom answers.",
-        body = "Tap a mission when it's done. A lantern lights along the wall, the windows " +
-            "warm, the fire grows. Weeks of keeping bring flowers, birds, and one sleepy hound.",
+        eyebrow = "Done",
+        title = "Finish one, and the castle lights up.",
+        body = "Tap a task when it's done and a lantern lights on the wall. Tap the three dots on a task " +
+            "to mark it done, skip it or delete it. Over the weeks come flowers, birds and a sleepy dog.",
         demo = { sky ->
             WorldState(sky = sky, keptToday = 4, preparedToday = 5, lightFraction = 0.88f, lanternsLit = 5, villageWarmth = 0.55f)
         }
     ),
     TourPage(
         eyebrow = "No guilt",
-        title = "Nothing is ever lost.",
-        body = "Unfinished missions rest in the Chronicle, ready to continue whenever you " +
-            "like. Time away brings a little mist over the valley — never ruin. There are no streaks to break.",
+        title = "Nothing is ever overdue.",
+        body = "Unfinished tasks wait in History. Bring them back whenever you like. " +
+            "Time away only brings a little mist, and there are no streaks to break.",
         demo = { sky -> WorldState(sky = sky, lightFraction = 0.05f, lanternsLit = 0, villageWarmth = 0.25f, wildness = 0.62f) }
     ),
     TourPage(
-        eyebrow = "The ritual",
-        title = "Prepare tomorrow tonight.",
-        body = "Before sleep, set down tomorrow's missions. Through the day the kingdom can " +
-            "whisper — at dawn to plan, at midday, afternoon and evening to follow through, " +
-            "and at night to prepare.",
-        footnote = "You can change how often, or silence them entirely, in the Sanctuary.",
+        eyebrow = "Evenings",
+        title = "Plan tomorrow tonight.",
+        body = "Before bed, add tomorrow's tasks. Citadel can also send a few friendly " +
+            "reminders: in the morning to plan, during the day to check in, and at night to plan tomorrow.",
+        footnote = "You can change how often, or turn them off, in Settings.",
         demo = { sky -> WorldState(sky = sky, lightFraction = 0.6f, lanternsLit = 4, villageWarmth = 0.7f) }
     )
 )

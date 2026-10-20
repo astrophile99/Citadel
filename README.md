@@ -4,12 +4,12 @@
 
 ![Citadel at dusk](fastlane/metadata/android/en-US/images/featureGraphic.png)
 
-Citadel is an Android task app that doesn't feel like one. Each day you name a few real
-things you mean to do. Keep one, and the kingdom answers — a lantern lights along the wall,
+Citadel is an Android task app that doesn't feel like one. Each day you add a few real
+things you mean to do. Finish one, and the kingdom answers — a lantern lights along the wall,
 the windows warm, the fire grows. Keep them for weeks and the world slowly comes to life.
 
-There are no points, badges or streaks. Unfinished missions are never "overdue"; they rest
-in the Chronicle until you want them again. Time away brings mist over the valley, never ruin.
+There are no points, badges or streaks. Unfinished tasks are never "overdue"; they wait
+in History until you want them again. Time away brings mist over the valley, never ruin.
 
 <p>
   <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="24%" alt="The Hearth at dusk">
@@ -20,21 +20,24 @@ in the Chronicle until you want them again. Time away brings mist over the valle
 
 ## What's inside
 
-- **The Hearth** — the world is the screen. It follows the real hour: mist at dawn, long
-  light in the afternoon, a warm horizon at dusk, stars at night. Today's missions sit on
+- **Today** — the world is the screen. It follows the real hour: mist at dawn, long
+  light in the afternoon, a warm horizon at dusk, stars at night. Today's tasks sit on
   its lower ground and scroll up out of it.
-- **Missions** — one field, three weights (Skirmish, Fortification, Expedition), once or
-  every day. The heavier the promise, the more the world moves when it's kept.
-- **The evening ritual** — prepare tomorrow before sleep. Five is suggested, never required.
-- **The Chronicle** — every day remembered, and every unfinished promise one tap from
-  *Continue*.
-- **Whispers** — up to five notifications a day (dawn, midday, afternoon, evening, night),
-  adjustable to four or two, on your own hours. They replace each other rather than
-  stacking, and stay silent while you're in the app.
+- **Tasks** — one field, three sizes (Small, Medium, Big), once or every day. Bigger tasks
+  move the world more. Each task's ⋮ button offers **Done**, **Skip** and **Delete**.
+- **Plan tomorrow** — add tomorrow's tasks before bed. Five is suggested, never required.
+- **History** — every day remembered, and every skipped or unfinished task one tap from
+  *Do today*.
+- **Reminders** — up to five notifications a day (morning, midday, afternoon, evening,
+  night), adjustable to four or two, on your own hours. They replace each other rather
+  than stacking, and stay silent while you're in the app.
 - **Widget** — the same world on your home screen, drawn by the same painters.
-- **Guide** — a five-page tour on first launch, replayable from the Sanctuary.
+- **Guide** — a five-page tour on first launch, replayable from Settings.
 - **Private by construction** — everything stays on the device. No account, no analytics,
   and no internet permission. See [PRIVACY.md](PRIVACY.md).
+
+Internally the code still uses the original names (`Hearth`, `Chronicle`, `Sanctuary`,
+`Mission`, `Whisper`); version 1.0.1 changed only the words people see.
 
 ## Building
 

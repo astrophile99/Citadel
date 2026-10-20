@@ -40,15 +40,15 @@ data class Mission(
  * rather than "how hard is this?".
  */
 enum class MissionImpact(val label: String, val worldWeight: Float) {
-    MINOR("Skirmish", 0.6f),
-    MODERATE("Fortification", 1.0f),
-    MAJOR("Expedition", 1.8f);
+    MINOR("Small", 0.6f),
+    MODERATE("Medium", 1.0f),
+    MAJOR("Big", 1.8f);
 
     val description: String
         get() = when (this) {
-            MINOR -> "A small thing, quickly done"
-            MODERATE -> "Steady work that holds the walls"
-            MAJOR -> "This one matters"
+            MINOR -> "Quick and easy"
+            MODERATE -> "Takes some effort"
+            MAJOR -> "This one really matters"
         }
 }
 

@@ -247,6 +247,16 @@ fun CitadelShell(viewModel: CitadelViewModel) {
                 },
                 canMoveToTomorrow = (target as? PrepareTarget.Existing)
                     ?.mission?.dayKey != state.tomorrowKey,
+                isTomorrow = (target as? PrepareTarget.Existing)
+                    ?.mission?.dayKey == state.tomorrowKey,
+                onToggleDone = { mission: Mission, done: Boolean ->
+                    viewModel.setKept(mission, done)
+                    prepare = null
+                },
+                onDoToday = { mission: Mission ->
+                    viewModel.continueMission(mission)
+                    prepare = null
+                },
                 onContinueTomorrow = { mission: Mission ->
                     viewModel.moveToTomorrow(mission)
                     prepare = null

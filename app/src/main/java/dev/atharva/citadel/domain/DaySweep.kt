@@ -132,13 +132,28 @@ object DaySweep {
         sweep(data, today, nowMillis).data
 
     private fun closingNote(kept: Int, prepared: Int): String = when {
-        prepared == 0 -> "A still day. The walls kept themselves."
-        kept == 0 -> "A quiet day. The hearth stayed lit regardless."
-        kept == prepared && kept >= 3 -> "Every promise kept. The lanterns burned late."
-        kept == prepared -> "All that was set down was done."
-        kept >= 3 -> "Good work along the walls."
-        else -> "Some ground gained. That is how ground is gained."
+        prepared == 0 -> "A quiet day. Nothing was planned."
+        kept == 0 -> "A slow day. That's okay."
+        kept == prepared && kept >= 3 -> "Everything done. A great day."
+        kept == prepared -> "Everything planned was done."
+        kept >= 3 -> "A good, busy day."
+        else -> "Some progress. That counts."
     }
+
+    /**
+     * Notes written by version 1.0.0 are stored in each day's entry. They are shown in
+     * today's plainer words, so a tester's History does not mix two vocabularies.
+     */
+    fun plainNote(note: String): String = LEGACY_NOTES[note] ?: note
+
+    private val LEGACY_NOTES = mapOf(
+        "A still day. The walls kept themselves." to "A quiet day. Nothing was planned.",
+        "A quiet day. The hearth stayed lit regardless." to "A slow day. That's okay.",
+        "Every promise kept. The lanterns burned late." to "Everything done. A great day.",
+        "All that was set down was done." to "Everything planned was done.",
+        "Good work along the walls." to "A good, busy day.",
+        "Some ground gained. That is how ground is gained." to "Some progress. That counts."
+    )
 
     /** Roughly two years of days. Older entries fade; nothing recent is ever thrown away. */
     private const val MAX_CHRONICLE_DAYS = 730

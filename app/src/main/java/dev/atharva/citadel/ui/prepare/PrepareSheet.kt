@@ -19,7 +19,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
@@ -45,6 +54,7 @@ import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
 import dev.atharva.citadel.data.model.Mission
 import dev.atharva.citadel.data.model.MissionImpact
+import dev.atharva.citadel.data.model.MissionStatus
 import dev.atharva.citadel.data.model.Recurrence
 import dev.atharva.citadel.ui.components.GoldButton
 import dev.atharva.citadel.ui.components.Hairline
@@ -55,19 +65,19 @@ import dev.atharva.citadel.ui.theme.citadelPalette
 
 /** What the sheet is being opened for. */
 sealed interface PrepareTarget {
-    /** A new promise, for the given day. */
+    /** A new task, for the given day. */
     data class New(val dayKey: String, val forTomorrow: Boolean = false) : PrepareTarget
 
-    /** An existing promise the Commander long-pressed. */
+    /** An existing task, opened from its options button or a long-press. */
     data class Existing(val mission: Mission) : PrepareTarget
 }
 
 /**
- * Enlisting a promise.
+ * Adding or editing a task.
  *
- * One field, three impacts, one switch. No due times, no subtasks, no tags, no priority
- * matrix — every one of those would be a place for the Commander to spend the evening
- * arranging their life instead of living it.
+ * One field, three sizes, one switch. No due times, no subtasks, no tags, no priority
+ * matrix — every one of those would be a place to spend the evening arranging your life
+ * instead of living it. An existing task also gets its three plain actions: done, skip, delete.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -76,6 +86,9 @@ fun PrepareSheet(
     onDismiss: () -> Unit,
     onCommit: (title: String, impact: MissionImpact, recurrence: Recurrence) -> Unit,
     canMoveToTomorrow: Boolean = true,
+    isTomorrow: Boolean = false,
+    onToggleDone: (Mission, Boolean) -> Unit = { _, _ -> },
+    onDoToday: (Mission) -> Unit = {},
     onContinueTomorrow: (Mission) -> Unit = {},
     onSetAside: (Mission) -> Unit = {},
     onRelease: (Mission) -> Unit = {}
@@ -87,6 +100,7 @@ fun PrepareSheet(
     var title by remember(target) { mutableStateOf(existing?.title.orEmpty()) }
     var impact by remember(target) { mutableStateOf(existing?.impact ?: MissionImpact.MODERATE) }
     var recurrence by remember(target) { mutableStateOf(existing?.recurrence ?: Recurrence.ONCE) }
+    var confirmDelete by remember(target) { mutableStateOf(false) }
 
     val focus = remember { FocusRequester() }
     LaunchedEffect(target) {
@@ -119,20 +133,31 @@ fun PrepareSheet(
         ) {
             Text(
                 text = when {
-                    existing != null -> "This promise"
-                    (target as? PrepareTarget.New)?.forTomorrow == true -> "For tomorrow"
-                    else -> "A new promise"
+                    existing != null -> "Edit task"
+                    (target as? PrepareTarget.New)?.forTomorrow == true -> "New task for tomorrow"
+                    else -> "New task"
                 },
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
+
+            if (existing != null) {
+                TaskActions(
+                    mission = existing,
+                    isTomorrow = isTomorrow,
+                    onToggleDone = onToggleDone,
+                    onDoToday = onDoToday,
+                    onSkip = onSetAside,
+                    onDelete = { confirmDelete = true }
+                )
+            }
 
             OutlinedTextField(
                 value = title,
                 onValueChange = { title = it.take(120) },
                 placeholder = {
                     Text(
-                        "What are you protecting?",
+                        "What do you want to get done?",
                         style = MaterialTheme.typography.bodyLarge,
                         color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.55f)
                     )
@@ -158,7 +183,7 @@ fun PrepareSheet(
             )
 
             Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                SectionLabel("How much of you it takes")
+                SectionLabel("How big is it?")
                 MissionImpact.entries.forEach { option ->
                     ImpactOption(
                         impact = option,
@@ -174,25 +199,113 @@ fun PrepareSheet(
             )
 
             GoldButton(
-                text = if (existing != null) "Keep the change" else "Set the mission",
+                text = if (existing != null) "Save changes" else "Add task",
                 onClick = { onCommit(title, impact, recurrence) },
                 enabled = title.isNotBlank(),
                 modifier = Modifier.fillMaxWidth()
             )
 
-            if (existing != null) {
+            if (existing != null && canMoveToTomorrow) {
                 Spacer(Modifier.height(2.dp))
                 Hairline()
-                Spacer(Modifier.height(2.dp))
-                // Three ways to put a promise down, and not one of them is called "delete failed task".
-                if (canMoveToTomorrow) {
-                    QuietAction("Continue tomorrow") { onContinueTomorrow(existing) }
-                }
-                QuietAction("Set aside for now") { onSetAside(existing) }
-                QuietAction("Let it go", tint = MaterialTheme.colorScheme.error) { onRelease(existing) }
+                QuietAction("Move to tomorrow") { onContinueTomorrow(existing) }
             }
 
             Spacer(Modifier.height(18.dp))
+        }
+    }
+
+    if (confirmDelete && existing != null) {
+        AlertDialog(
+            onDismissRequest = { confirmDelete = false },
+            containerColor = palette.surfaceElevated,
+            title = { Text("Delete this task?") },
+            text = {
+                Text("\u201c${existing.title}\u201d will be removed for good. To keep it for later, use Skip instead.")
+            },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmDelete = false
+                    onRelease(existing)
+                }) {
+                    Text("Delete", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmDelete = false }) {
+                    Text("Cancel", color = MaterialTheme.colorScheme.onSurface)
+                }
+            }
+        )
+    }
+}
+
+/**
+ * The three things people most want to do with a task, in plain words, side by side.
+ *
+ * Skip is not failure: a skipped task waits in History and can be brought back any time.
+ * A task already waiting there offers "Do today" in place of Done and Skip.
+ */
+@Composable
+private fun TaskActions(
+    mission: Mission,
+    isTomorrow: Boolean,
+    onToggleDone: (Mission, Boolean) -> Unit,
+    onDoToday: (Mission) -> Unit,
+    onSkip: (Mission) -> Unit,
+    onDelete: () -> Unit
+) {
+    val resting = mission.status == MissionStatus.RESTING
+    val plain = MaterialTheme.colorScheme.onSurface
+    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Row(horizontalArrangement = Arrangement.spacedBy(10.dp), modifier = Modifier.fillMaxWidth()) {
+            when {
+                resting -> ActionChip("Do today", Icons.Filled.Refresh, DawnGold) { onDoToday(mission) }
+                isTomorrow -> Unit
+                mission.isComplete -> ActionChip("Not done", Icons.Filled.Refresh, plain) {
+                    onToggleDone(mission, false)
+                }
+                else -> ActionChip("Done", Icons.Filled.Check, AncientForest) { onToggleDone(mission, true) }
+            }
+            if (!resting && !mission.isComplete) {
+                ActionChip("Skip", Icons.AutoMirrored.Filled.ArrowForward, plain) { onSkip(mission) }
+            }
+            ActionChip("Delete", Icons.Filled.Delete, MaterialTheme.colorScheme.error, onClick = onDelete)
+        }
+        Text(
+            text = if (resting) {
+                "This task is waiting in History. Bring it back to today, or delete it."
+            } else {
+                "Skipped tasks wait in History, so you can do them another day."
+            },
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+        )
+    }
+}
+
+@Composable
+private fun RowScope.ActionChip(
+    text: String,
+    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    tint: androidx.compose.ui.graphics.Color,
+    onClick: () -> Unit
+) {
+    Surface(
+        color = tint.copy(alpha = 0.10f),
+        shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(1.dp, tint.copy(alpha = 0.45f)),
+        modifier = Modifier
+            .weight(1f)
+            .clickable(role = Role.Button, onClick = onClick)
+    ) {
+        Column(
+            modifier = Modifier.padding(vertical = 12.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Icon(imageVector = icon, contentDescription = null, tint = tint)
+            Text(text = text, style = MaterialTheme.typography.labelLarge, color = tint)
         }
     }
 }
